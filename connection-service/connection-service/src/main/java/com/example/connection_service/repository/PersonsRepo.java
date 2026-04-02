@@ -1,17 +1,52 @@
 package com.example.connection_service.repository;
 
-import com.example.connection_service.Entity.person;
+import com.example.connection_service.Entity.Person;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface PersonsRepo extends Neo4jRepository<person, Long> {
-    Optional<person> getByName(String name);
+public interface PersonsRepo extends Neo4jRepository<Person, Long> {
+    Optional<Person> getByName(String name);
 
     @Query("MATCH (personA:person) -[:CONNECTED_TO]- (personB:person)"+
     "WHERE personA.userId = $userId"+"RETURN personB")
-    List<person> getFirstDegreeConnections();
+    List<Person> getFirstDegreeConnections();
+
+
+    @Query("MATCH (me:person)-[:CONNECTED_TO]-(friend)-[:CONNECTED_TO]-(foaf:person) " +
+            "WHERE me.userId = $userId " +
+            "AND NOT (me)-[:CONNECTED_TO]-(foaf) " +
+            "AND me <> foaf " +
+            "RETURN DISTINCT foaf")
+    @Nullable List<Person> getFriendsRecommendation();
+
+    @Query("MATCH (p1:Person)-[r:REQUESTED_TO]->(p2:Person) " +
+            "WHERE p1.userId = $senderId AND p2.userId = $receiverId " +
+            "RETURN count(r) > 0")
+    boolean connectionRequestExists(Long senderId, Long receiverId);
+
+    @Query("MATCH (p1:Person)-[r:CONNECTED_TO]-(p2:Person) " +
+            "WHERE p1.userId = $senderId AND p2.userId = $receiverId " +
+            "RETURN count(r) > 0")
+    boolean alreadyConnected(Long senderId, Long receiverId);
+
+    @Query("MATCH (p1:Person), (p2:Person) " +
+            "WHERE p1.userId = $senderId AND p2.userId = $receiverId " +
+            "CREATE (p1)-[:REQUESTED_TO]->(p2)")
+    void addConnectionRequest(Long senderId, Long receiverId);
+
+    @Query("MATCH (p1:Person)-[r:REQUESTED_TO]->(p2:Person) " +
+            "WHERE p1.userId = $senderId AND p2.userId = $receiverId " +
+            "DELETE r " +
+            "CREATE (p1)-[:CONNECTED_TO]->(p2)")
+    void acceptConnectionRequest(Long senderId, Long receiverId);
+
+    @Query("MATCH (p1:Person)-[r:REQUESTED_TO]->(p2:Person) " +
+            "WHERE p1.userId = $senderId AND p2.userId = $receiverId " +
+            "DELETE r")
+    void rejectConnectionRequest(Long senderId, Long receiverId);
 
 }

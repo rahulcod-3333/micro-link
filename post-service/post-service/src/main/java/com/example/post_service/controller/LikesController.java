@@ -1,9 +1,7 @@
 package com.example.post_service.controller;
 
 import com.example.post_service.service.LikeService;
-import com.example.post_service.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +13,13 @@ public class LikesController {
 
     @PostMapping("/{postId}")
     public ResponseEntity<Void> likePosts(@PathVariable Long postId){
-        likeService.likePosts(postId , 1L);
+        likeService.likePosts(postId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> unlikePost(@PathVariable Long postId) {
-        likeService.unlikePost(postId, 1L);
+        likeService.unlikePost(postId);
         return ResponseEntity.noContent().build();
     }
 

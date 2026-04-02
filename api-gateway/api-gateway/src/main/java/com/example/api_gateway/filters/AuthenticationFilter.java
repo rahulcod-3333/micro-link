@@ -30,7 +30,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
             // now if the token is found then get the userID form the token using jwt Service .
             String userId = jwtService.getUserIdFromToken(token);
-            ServerWebExchange modifyChanges = exchange.mutate().request(r->r.header("X-User-Id", userId)).build();
+            ServerWebExchange modifyChanges = exchange.mutate().request(r->r.headers(headers-> headers.remove("X-User-Id"))
+                    .header("X-User-Id", userId)).build();
 
 
             return chain.filter(modifyChanges);

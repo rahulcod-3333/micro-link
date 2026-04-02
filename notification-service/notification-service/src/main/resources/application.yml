@@ -1,0 +1,10 @@
+spring:
+  kafka:
+    bootstrap-server: kafka:9092
+    consumer:
+      group-id: ${spring.application.name}
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.JsonSerializer
+      properties:
+        spring.json:
+          trusted.packages: com.example.*

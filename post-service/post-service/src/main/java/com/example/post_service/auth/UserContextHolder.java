@@ -1,8 +1,5 @@
 package com.example.post_service.auth;
 
-import org.springframework.stereotype.Component;
-
-
 public class UserContextHolder {
     private static final ThreadLocal<Long> currentUserId = new ThreadLocal<>();
 
