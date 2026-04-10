@@ -52,7 +52,7 @@ public class ConnectionService {
                 .receiverId(receiverId)
                 .senderId(senderID)
                 .build();
-        sendRequestEventKafkaTemplate.send("send-connection-request-topic" , sendRequestEvent);
+        sendRequestEventKafkaTemplate.send("send" , sendRequestEvent);
         return true;
     }
 
