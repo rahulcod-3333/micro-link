@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AuthGate from "../components/AuthGate.jsx";
+import NetworkPage from "../components/NetworkPage.jsx";
+---
+
+<Layout title="micro-link | Network" description="Manage connections and discover new people.">
+  <AuthGate client:load />
+  <NetworkPage client:load />
+</Layout>

@@ -22,6 +22,4 @@ public class LikesController {
         likeService.unlikePost(postId);
         return ResponseEntity.noContent().build();
     }
-
-//    @GetMapping
 }

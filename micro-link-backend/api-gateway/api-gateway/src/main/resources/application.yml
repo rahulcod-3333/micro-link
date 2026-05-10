@@ -5,38 +5,46 @@ spring:
 
   cloud:
     gateway:
-      routes:
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/api/v1/users/**
-          filters:
-            - StripPrefix=2
-#we cannot put authentication controller here becoz AuthController present inside the UserService already accepts login and
-#and signup request
-        - id: post-service
-          uri: lb://POST-SERVICE
-          predicates:
-            - Path=/api/v1/posts/**
-          filters:
-            - StripPrefix=2
-            - name: AuthenticationFilter
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api/v1/users/**
+              filters:
+                - StripPrefix=2
+    #we cannot put authentication controller here becoz AuthController present inside the UserService already accepts login
+    #and signup request
+            - id: post-service
+              uri: lb://POST-SERVICE
+              predicates:
+                - Path=/api/v1/posts/**
+              filters:
+                - StripPrefix=2
+                - name: AuthenticationFilter
 
-        - id: connection-service
-          uri: lb://CONNECTION-SERVICE
-          predicates:
-            - Path=/api/v1/connections/**
-          filters:
-            - StripPrefix=2
-            - name: AuthenticationFilter
+            - id: connection-service
+              uri: lb://CONNECTION-SERVICE
+              predicates:
+                - Path=/api/v1/connections/**
+              filters:
+                - StripPrefix=2
+                - name: AuthenticationFilter
+            - id: notification-service
+              uri: lb://NOTIFICATION-SERVICE
+              predicates:
+                - Path=/api/v1/notifications/**
+              filters:
+                - StripPrefix=2
+                - name: AuthenticationFilter
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-server:8761/eureka
+      defaultZone: http://localhost:8761/eureka
 
 
-jwt.secretKey: jhdshcbsdbchsbdcewifwfnnrlgkeofnsdknskefwejfhwbgvvghftr6465456tcfcvnkjnjbjhbutyr65edrfvlmnjbhvjcgcfxcytfyt65e5e5d5ftgy8gf5d4duh774w3w433thjghcfxserswegvjggyut4wcghf
+jwt.secretKey: jhdshcbsdbchsbdcewifwfnnrlgkeofnsdknskefwejfhwbgvvghftr6465456tcfcvnkjnjbjhbutyr65edrfvlmnjbhvjcgcfxcytfyt65e5e5d5ftgy8gf5d4duh774w3w433thjghcfxserswegvjbcbwer4375374rhu
 
 server:
   port: 8081
-

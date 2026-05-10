@@ -2,6 +2,7 @@ package com.example.connection_service.Controller;
 
 import com.example.connection_service.Entity.Person;
 import com.example.connection_service.Service.ConnectionService;
+import com.example.connection_service.dto.ConnectionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,25 @@ import java.util.List;
 public class ConnectionsController {
 
     private final ConnectionService connectionService;
+
     @GetMapping("/first-connected")
-    public ResponseEntity<List<Person>> getFirstConnection(){
+    public ResponseEntity<List<ConnectionResponseDto>> getFirstConnection(){
         return ResponseEntity.ok(connectionService.getFirstDegreeConnections());
 
     }
+
     @GetMapping("/recommendations")
-    public ResponseEntity<List<Person>> getRecommendation(){
+    public ResponseEntity<List<ConnectionResponseDto>> getRecommendation(){
         return ResponseEntity.ok(connectionService.getRecommendation());
+    }
+
+    @GetMapping("/receivedRequest")
+    public ResponseEntity<List<ConnectionResponseDto>> getReceived(){
+        return ResponseEntity.ok(connectionService.getReceivedRequests());
+    }
+    @GetMapping("/sentRequests")
+    public ResponseEntity<List<ConnectionResponseDto>> getSentRequests(){
+        return ResponseEntity.ok(connectionService.getSentRequests());
     }
 
     @PostMapping("/request/{userId}")

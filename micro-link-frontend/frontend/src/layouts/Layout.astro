@@ -1,0 +1,97 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import NotificationBell from '../components/NotificationBell.jsx';
+
+const { title = "micro-link", description = "A modern professional network app." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <ClientRouter />
+    <title>{title}</title>
+    
+    <!-- New Geometric Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="app-shell">
+    <div class="relative z-10">
+      
+      <!-- Clean White Navbar -->
+        <nav data-guest-only class="auth-hidden absolute top-0 w-full z-50 bg-white border-b border-slate-100">        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          
+          <!-- Logo -->
+          <a href="/" class="flex items-center gap-2 group">
+            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#6d28d9] text-white transition-transform group-hover:scale-105">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+            </div>
+            <span class="text-xl font-bold font-display tracking-tight text-slate-900">micro-link</span>
+          </a>
+
+          <!-- Centered Links -->
+          <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+            <a href="/" class="hover:text-[#6d28d9] transition">Feed</a>
+            <a href="/network" data-auth-only class="auth-hidden hover:text-[#6d28d9] transition">Network</a>
+            <a href="#" class="hover:text-[#6d28d9] transition">Community</a>
+            <a href="#" class="hover:text-[#6d28d9] transition">For Creators</a>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex items-center gap-4">
+            <NotificationBell client:load />
+            
+            <a href="/login" data-guest-only class="auth-hidden rounded-full bg-[#6d28d9] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#4c1d95] shadow-lg shadow-purple-500/30">
+              Sign in
+            </a>
+            
+            <button id="logout-btn" data-auth-only class="auth-hidden rounded-full border-2 border-slate-200 bg-white px-6 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50">
+              Logout
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <slot />
+    </div>
+
+   <script is:inline>
+      // Wrap everything in astro:page-load so it fires on every route change!
+      document.addEventListener('astro:page-load', () => {
+        const tokenKey = 'micro_link_token';
+        const hasToken = Boolean(localStorage.getItem(tokenKey));
+
+        // Toggle Auth vs Guest buttons
+        document.querySelectorAll('[data-auth-only]').forEach((element) => {
+          element.classList.toggle('auth-hidden', !hasToken);
+        });
+
+        document.querySelectorAll('[data-guest-only]').forEach((element) => {
+          element.classList.toggle('auth-hidden', hasToken);
+        });
+
+        // Attach Logout Event
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+          // Prevent multiple listeners from stacking up during navigation
+          logoutBtn.replaceWith(logoutBtn.cloneNode(true));
+          const newLogoutBtn = document.getElementById('logout-btn');
+          
+          newLogoutBtn.addEventListener('click', () => {
+            localStorage.removeItem(tokenKey);
+            localStorage.removeItem('micro_link_refresh_token');
+            window.location.href = '/login';
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

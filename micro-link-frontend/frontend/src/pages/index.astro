@@ -1,0 +1,194 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LiveFeed from "../components/LiveFeed.jsx";
+import girl1 from "../assets/images/girl1.jpg"
+import girl2 from "../assets/images/girl2.jpg"
+import men from "../assets/images/men.jpg"
+import mountain from "../assets/images/mountain.jpg"
+import AnimatedTitle from "../components/AnimatedTitle.jsx";
+import SectionTitle from "../components/SectionTitle.jsx";
+import PhoneMockup from "../components/PhoneMockup.jsx";
+import FeatureCards from "../components/FeatureCards.jsx";
+
+---
+
+<Layout title="micro-link | Connect With Friends">
+
+  <div id="guest-view" class="hidden">
+    <section class="relative w-full pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+      
+      <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] rounded-full bg-[#1e1b4b] blur-[100px] opacity-90 hero-gradient-1"></div>
+        <div class="absolute top-[10%] left-[20%] w-[60%] h-[70%] rounded-full bg-[#c026d3] blur-[130px] opacity-80 hero-gradient-2"></div>
+        <div class="absolute top-[-10%] right-[0%] w-[50%] h-[60%] rounded-full bg-[#0ea5e9] blur-[120px] opacity-70 hero-gradient-1"></div>
+        <div class="absolute bottom-0 w-full h-48 bg-linear-to-t from-white to-transparent"></div>
+      </div>
+
+      <div class="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
+        
+        <div class="max-w-xl">
+          <h1 class="text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold text-white tracking-tight leading-[1.05] font-display">
+            Connect <br/>With Friends
+          </h1>
+          <p class="mt-6 text-lg sm:text-xl text-white/90 leading-relaxed max-w-md font-medium">
+            Explore a New Dimension of Social Media. Engage, Earn, Empower.
+          </p>
+        </div> <div class="relative h-[500px] w-full hidden md:block" style="isolation: isolate;">
+          <div class="absolute top-[5%] right-[15%] z-10 animate-float-1">
+            <div class="w-32 h-48 rounded-[3rem] bg-[#fef3c7] shadow-2xl overflow-hidden flex items-center justify-center text-4xl">
+              <img src={girl1.src} alt="Girl" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div class="absolute top-[30%] left-[10%] z-20 animate-float-2">
+            <div class="w-48 h-40 rounded-[3rem] bg-[#4338ca] shadow-2xl overflow-hidden flex items-center justify-center">
+              <img src={mountain.src} alt="Mountain" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div class="absolute top-[45%] right-[5%] z-10 animate-float-3">
+            <div class="w-40 h-40 rounded-full bg-[#fde047] shadow-2xl overflow-hidden flex items-center justify-center text-6xl">
+              <img src={girl2.src} alt="Girl" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div class="absolute bottom-[5%] left-[35%] z-20 animate-float-4">
+            <div class="w-44 h-44 rounded-full bg-[#bef264] shadow-2xl overflow-hidden flex items-center justify-center">
+              <img src={men.src} alt="Men" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div class="absolute top-[15%] right-[5%] z-30 animate-float-3">
+            <div class="bg-black text-white px-5 py-4 rounded-full rounded-bl-none shadow-xl text-2xl">😍</div>
+          </div>
+          <div class="absolute top-[34%] left-[39%] z-30 animate-float-1">
+            <div class="bg-black text-white px-3 py-2 rounded-full rounded-bl-none shadow-xl text-xl hover:scale-110 transition-transform cursor-pointer">🤩</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-16">
+      <div class="max-w-4xl mx-auto text-center px-6">
+        <AnimatedTitle client:load title="Unleash&nbsp;&nbsp;Your <br/> Social&nbsp;&nbsp;Potential" containerClass="text-4xl sm:text-5xl font-black font-display tracking-tight text-slate-900" />
+        <p id="sub-text" class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed opacity-0 translate-y-4">
+          Welcome to micro-link, the social media platform that brings the thrill of achievement, the power of connection, and the freedom to create.
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-slate-50/50 py-24 border-y border-slate-100">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <SectionTitle
+            client:load
+            title="Built For You"
+            containerClass="text-4xl font-black font-display text-slate-900"
+          />
+          <p class="mt-4 text-slate-500">Our social media platform is a playground of achievement and connection.</p>
+        </div>
+        <FeatureCards client:load />
+      </div>
+    </section>
+
+    <section class="bg-white py-24 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="text-4xl font-black font-display text-slate-900 leading-tight">Safety & Privacy First<br/>for Our Users</h2>
+          <p class="mt-6 text-slate-500 text-lg leading-relaxed">
+            At micro-link, we prioritize a safe environment for all users. Our strict safety guidelines ensure a secure experience with age verification, review privacy settings, and moderation features.
+          </p>
+        </div>
+        <div class="relative h-[400px]">
+          <div class="absolute inset-y-10 inset-x-0 bg-gradient-to-r from-[#1e1b4b] to-[#4c1d95] rounded-[3rem] transform skew-y-3 shadow-2xl"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <PhoneMockup client:load />
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <section class="bg-white py-12 pb-24">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="cta-card bg-[#1e1b4b] rounded-[2.5rem] p-10 lg:p-16 flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden relative">
+      
+      <!-- Shine blaze -->
+      <div class="cta-shine pointer-events-none absolute inset-0 z-20"></div>
+
+      <div class="relative z-10">
+        <h2 class="text-3xl md:text-5xl font-black font-display text-white leading-tight">
+          Start Your Journey on<br/>micro-link Today!
+        </h2>
+        <a href="/login" class="mt-8 inline-block bg-[#c026d3] text-white font-bold px-8 py-4 rounded-full hover:bg-[#a21caf] transition shadow-lg shadow-fuchsia-500/30">
+          Download App
+        </a>
+      </div>
+
+      <div class="relative z-10 w-32 h-32 bg-[#bef264] rounded-full flex items-center justify-center shadow-2xl transform rotate-12">
+        <span class="text-5xl">⚡️</span>
+      </div>
+
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-[#4c1d95] blur-[80px] rounded-full opacity-50"></div>
+    </div>
+  </div>
+</section>
+
+    <footer class="bg-black py-8 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-full bg-[#6d28d9]"></div>
+          <span class="text-white font-bold font-display tracking-tight">micro-link</span>
+        </div>
+        <div class="flex gap-6 text-sm text-slate-400 font-medium">
+          <a href="#" class="hover:text-white">About</a>
+          <a href="#" class="hover:text-white">Features</a>
+          <a href="#" class="hover:text-white">Privacy</a>
+        </div>
+        <div class="text-xs text-slate-600">
+          © 2026 micro-link. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+ <div id="auth-view" class="hidden w-full bg-[#f4f6fb] min-h-screen">
+    <LiveFeed client:load />
+  </div>
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Wrap in astro:page-load to perfectly support <ClientRouter /> page transitions
+  document.addEventListener('astro:page-load', () => {
+    const tokenKey = 'micro_link_token';
+    const hasToken = Boolean(localStorage.getItem(tokenKey));
+
+    const guestView = document.getElementById('guest-view');
+    const authView = document.getElementById('auth-view');
+
+    if (hasToken) {
+      // User is logged in: Show the feed, safely hide the landing page
+      if (authView) authView.classList.remove('hidden');
+      if (guestView) guestView.classList.add('hidden'); // <-- FIX: Used CSS instead of .remove()
+    } else {
+      // User is a guest: Show the landing page, safely hide the feed
+      if (guestView) guestView.classList.remove('hidden');
+      if (authView) authView.classList.add('hidden'); // <-- FIX: Used CSS instead of .remove()
+
+      // ONLY run GSAP animations if the user is a guest (Landing Page is visible)
+      if (typeof window !== "undefined") {
+        gsap.to("#sub-text", {
+          scrollTrigger: {
+            trigger: "#sub-text",
+            start: "top 90%",
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.2,
+        });
+      }
+    }
+  });
+</script>

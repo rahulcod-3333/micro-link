@@ -1,8 +1,8 @@
 package com.example.notification_service.notification_service.consumer;
 
 
-import com.example.notification_service.notification_service.connection_service_event.AcceptConnectionServiceEvent;
-import com.example.notification_service.notification_service.connection_service_event.RequestConnectionServiceEvent;
+import com.example.notification_service.connection_service.event.AcceptRequestEvent;
+import com.example.notification_service.connection_service.event.SendRequestEvent;
 import com.example.notification_service.notification_service.service.SendNotification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,20 +15,40 @@ import org.springframework.stereotype.Service;
 public class ConnectionServiceConsumer {
 
     private final SendNotification sendNotification;
-    @KafkaListener(topics = "request-connect-event")
-    public void handleConnectionServiceConsumer(RequestConnectionServiceEvent requestConnectionServiceEvent){
-        log.info("handle connections: handleSendConnectionRequest: {}", requestConnectionServiceEvent);
 
-        String message = "You have request from user with id: %d"+requestConnectionServiceEvent.getSenderId();
-        sendNotification.send(requestConnectionServiceEvent.getReceiverId() , message);
+    @KafkaListener(topics = "send-request-event" ,
+            properties = {
+                    "spring.json.use.type.headers=false",
+                    "spring.json.value.default.type=com.example.notification_service.connection_service.event.SendRequestEvent"
+            })
+    public void handleConnectionServiceConsumer(SendRequestEvent requestConnectionServiceEvent){
+          try {
+            log.info("handle connections: handleSendConnectionRequest: {}", requestConnectionServiceEvent);
+
+            String message = String.format("You have a request from user with id: %d", requestConnectionServiceEvent.getSenderId());
+            sendNotification.send(requestConnectionServiceEvent.getReceiverId(), message);
+        } catch (Exception ex) {
+            log.error("Failed to handle connection request event: {}", requestConnectionServiceEvent, ex);
+        }
     }
 
-    @KafkaListener(topics = "accept-request-event")
-    public void handleAcceptConnectionService(AcceptConnectionServiceEvent acceptConnectionServiceEvent){
-        log.info("handle connections: handleAcceptConnectionRequest: {}", acceptConnectionServiceEvent);
 
-        String message = "Your request has been accepted by id : %d"+acceptConnectionServiceEvent.getReceiverId();
-        sendNotification.send(acceptConnectionServiceEvent.getSenderId(), message);
+    @KafkaListener(topics = "accept-request-event" ,
+            properties = {
+            "spring.json.use.type.headers=false",
+            "spring.json.value.default.type=com.example.notification_service.connection_service.event.AcceptRequestEvent"
+    })
+    public void handleAcceptConnectionService(AcceptRequestEvent acceptConnectionServiceEvent){
+        try{
+            log.info("handle connections: handleAcceptConnectionRequest: {}", acceptConnectionServiceEvent);
+
+            String message = String.format("Your request has been accepted by id: %d", acceptConnectionServiceEvent.getReceiverId());
+            sendNotification.send(acceptConnectionServiceEvent.getSenderId(), message);
+        }
+        catch (Exception ex){
+            log.error("Failed to handle connection request event: {}", acceptConnectionServiceEvent, ex);
+
+        }
 
     }
 

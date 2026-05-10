@@ -25,6 +25,14 @@ public class LikeService {
         Long userId = UserContextHolder.getCurrentUserId();
         log.info("Attempting to like the post with id: {}", postId);
 
+        Long creatorId = postRepository.findById(postId)
+                .map(post -> {
+                    if (post.getUserId().equals(userId)) {
+                        throw new BadRequestException("Cannot like your own post");
+                    }
+                    return post.getUserId();
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
 
         boolean alreadyLiked = likeRepository.existsByUserIdAndPostId(userId , postId);
         if(alreadyLiked) throw new BadRequestException("post is already Liked");
@@ -37,10 +45,17 @@ public class LikeService {
         PostLikeEvent likeEvent= PostLikeEvent.builder()
                 .likedByUserId(userId)
                 .postId(postId)
-                .creatorId(postLike.getId())
+                .creatorId(creatorId)
                 .build();
-        kafkaTemplate.send("post-like-event",postId, likeEvent); // Here we have the postId because --
+        kafkaTemplate.send("post-liked-topic", postId, likeEvent);
 
+    }
+    public int likeCount(Long postId){
+        log.info("Fetching like count for post id: {}", postId);
+        if(!postRepository.existsById(postId)){
+            throw new ResourceNotFoundException("Post not found with id: " + postId);
+        }
+        return likeRepository.countByPostId(postId);
     }
 
     public void unlikePost(Long postId) {

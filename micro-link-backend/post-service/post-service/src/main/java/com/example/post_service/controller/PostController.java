@@ -2,6 +2,7 @@ package com.example.post_service.controller;
 
 import com.example.post_service.dto.PostCreateReqDto;
 import com.example.post_service.dto.PostDto;
+import com.example.post_service.dto.PostResponseDto;
 import com.example.post_service.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,4 +37,11 @@ public class PostController {
         List<PostDto> posts = postService.getAllPostsOfUser(userId);
         return ResponseEntity.ok(posts);
     }
+
+    @GetMapping("/feed")
+    public ResponseEntity<List<PostResponseDto>> getFeed() {
+        return ResponseEntity.ok(postService.getMyFeeds());
+    }
+
+
 }

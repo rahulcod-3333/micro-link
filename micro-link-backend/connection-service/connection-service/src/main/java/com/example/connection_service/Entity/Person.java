@@ -1,12 +1,16 @@
 package com.example.connection_service.Entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Node;
 
 @Node
 @Data
+@Getter
+@Setter
 public class Person {
     @Id
     @GeneratedValue

@@ -5,9 +5,19 @@ import com.example.api_gateway.Service.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Slf4j
+@Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config>
 {
     private final JwtService jwtService;
@@ -37,6 +47,17 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             return chain.filter(modifyChanges);
 
         };
+    }
+    @Bean
+    public CorsWebFilter corsWebFilter(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4321" , "http://localhost:3000"));
+        corsConfiguration.setMaxAge(3600L);
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        corsConfiguration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsWebFilter(source);
     }
 
     public static class Config{
